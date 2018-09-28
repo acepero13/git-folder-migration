@@ -1,4 +1,5 @@
-4. File walker
 1. Remove folder or at least move it
 2. Two commands instead of one
 3. Parameter options
+4. Optional folders, regexp and explicit list
+5. Folder utils
