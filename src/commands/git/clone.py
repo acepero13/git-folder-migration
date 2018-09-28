@@ -1,3 +1,4 @@
+from commands.command_builder import CommandBuilder
 from commands.git.abstract_git_command import AbstractGitCommand
 
 
@@ -7,5 +8,8 @@ class Clone(AbstractGitCommand):
         self.url = repo_url
         self.name = folder_name
 
-    def build_command(self):
-        super().add('clone').add(self.url).add(self.name)
+    def build_commands(self):
+        command = CommandBuilder()
+        command.add('clone').add(self.url).add(self.name)
+        return [command]
+

@@ -1,3 +1,4 @@
+from commands.command_builder import CommandBuilder
 from commands.git.abstract_git_command import AbstractGitCommand
 
 
@@ -7,6 +8,8 @@ class Filter(AbstractGitCommand):
         self.folder = folder_name
         self.branch = branch
 
-    def build_command(self):
-        super().add('filter-branch').add('--prune-empty').add(
+    def build_commands(self):
+        command = CommandBuilder()
+        command.add('filter-branch').add('--prune-empty').add(
             '--subdirectory-filter').add(self.folder).add(self.branch)
+        return [command]

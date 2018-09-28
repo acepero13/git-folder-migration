@@ -3,18 +3,13 @@ from abc import ABC, abstractmethod
 
 class AbstractGitCommand(ABC):
     def __init__(self, shell):
-        self.commands = ['git']
-        self.shell = shell;
-
-    def add(self, arg):
-        self.commands.append(arg)
-        return self
+        self.shell = shell
 
     def execute(self):
-        self.build_command()
-        self.shell.execute(self.commands)
+        for command in self.build_commands():
+            self.shell.execute(command.get_command())
 
     @abstractmethod
-    def build_command(self):
+    def build_commands(self):
         pass
 

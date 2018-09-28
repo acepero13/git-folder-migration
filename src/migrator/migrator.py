@@ -1,3 +1,5 @@
+import os
+
 from commands.git.clone import Clone
 from commands.git.filter import Filter
 from commands.git.create_repo import CreateRepo
@@ -19,16 +21,19 @@ class Migrator(object):
         Clone(Shell(self.origin), self.config['repo_url'], self.origin).execute()
         folders_to_migrate = self.dir_discover.list()
         for folder_path, folder_name in folders_to_migrate:
-            shell = Shell(self.cloned)
-            shell_repo = Shell(self.cloned + '\\' + folder_name)
-            folder = folder_path[len(self.origin)+1:].replace('\\', '/')
-            operations = [Clone(shell, self.config['repo_url'], folder_name),
-                          Filter(shell_repo, folder, folder, 'master'),
-                          CreateRepo(shell_repo, self.config['new-repo'], folder_name, 'master'),
-                          Push(shell_repo, 'origin', 'master')
-                          ]
+            operations = self.prepare_migration(folder_name, folder_path)
             self.start_migration(operations)
         self.clean_up()
+
+    def prepare_migration(self, folder_name, folder_path):
+        shell_repo = Shell(os.path.join(self.cloned, folder_name))
+        folder = folder_path[len(self.origin) + 1:].replace('\\', '/')
+        operations = [Clone(Shell(self.cloned), self.config['repo_url'], folder_name),
+                      Filter(shell_repo, folder, folder, 'master'),
+                      CreateRepo(shell_repo, self.config['new-repo'], folder_name, 'master'),
+                      Push(shell_repo, 'origin', 'master')
+                      ]
+        return operations
 
     def clean_up(self):
         folder = Folder(None)
