@@ -1,0 +1,13 @@
+migrator:
+  original_repo: 'https://gitlab.com/alvaromoltomedia13/mytestproject.git'
+  new_repo_namespace: 'https://gitlab.com/migrator-sorter-tmp/'
+  working_directory: 'C:\Users\amador\Documents\Projects\table-sorter'
+  sub_folder: 'src\sorter\'
+  includes:
+    - 'comparables'
+    - 'table'
+  excludes:
+    - 'factories'
+    - 'attributes'
+  regex_folder_name: ''
+

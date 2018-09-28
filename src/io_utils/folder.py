@@ -19,7 +19,11 @@ class Folder(object):
         os.makedirs(folder_path)
 
     def remove(self, folder_path):
-        shutil.rmtree(self.build_path(folder_path), ignore_errors=False)
+        try:
+            shutil.rmtree(self.build_path(folder_path), ignore_errors=False)
+        except:
+            print('Could not delete folder: ' + folder_path + '. Please, try to delete it manually')
+            exit(1)
 
     def build_path(self, folder):
         if self.working_directory is None:

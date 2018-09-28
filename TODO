@@ -1,3 +1,5 @@
 1. Remove folder or at least move it (not fully deleting)
-4. Optional folders, regexp and explicit list
-5. Logger for command
+6. git vs https
+7. Plugins for after separated (create file, etc)
+8. check for mandatory fields
+9. Check for path correctness
