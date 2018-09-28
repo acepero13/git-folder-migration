@@ -8,5 +8,5 @@ class TestCreateRepoCommand(unittest.TestCase):
         shell = FakeShell('/fake/path')
         create = CreateRepo(shell, 'git@gitlab.example.com:namespace/', 'extensionName', 'master')
         create.execute()
-        self.assertEqual('git remote add origin git@gitlab.example.com:namespace/extensionName.git',
+        self.assertEqual('git remote set-url origin git@gitlab.example.com:namespace/extensionName.git',
                          shell.get_executed_command())

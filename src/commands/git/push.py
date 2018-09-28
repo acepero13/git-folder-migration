@@ -1,8 +1,8 @@
 from commands.command_builder import CommandBuilder
-from commands.git.abstract_git_command import AbstractGitCommand
+from commands.abstract_command import AbstractCommand
 
 
-class Push(AbstractGitCommand):
+class Push(AbstractCommand):
     def __init__(self, shell, remote_name, branch):
         super().__init__(shell)
         self.remote = remote_name

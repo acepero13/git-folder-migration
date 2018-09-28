@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class AbstractGitCommand(ABC):
+class AbstractCommand(ABC):
     def __init__(self, shell):
         self.shell = shell
 

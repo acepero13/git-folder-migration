@@ -1,8 +1,8 @@
 from commands.command_builder import CommandBuilder
-from commands.git.abstract_git_command import AbstractGitCommand
+from commands.abstract_command import AbstractCommand
 
 
-class Filter(AbstractGitCommand):
+class Filter(AbstractCommand):
     def __init__(self, shell, folder_name, folder_path, branch):
         super().__init__(shell)
         self.folder = folder_name

@@ -1,8 +1,8 @@
 from commands.command_builder import CommandBuilder
-from commands.git.abstract_git_command import AbstractGitCommand
+from commands.abstract_command import AbstractCommand
 
 
-class CreateRepo(AbstractGitCommand):
+class CreateRepo(AbstractCommand):
     def __init__(self, shell, remote_url, repo_name, branch):
         super().__init__(shell)
         self.remote = remote_url

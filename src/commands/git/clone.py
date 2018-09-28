@@ -1,8 +1,8 @@
 from commands.command_builder import CommandBuilder
-from commands.git.abstract_git_command import AbstractGitCommand
+from commands.abstract_command import AbstractCommand
 
 
-class Clone(AbstractGitCommand):
+class Clone(AbstractCommand):
     def __init__(self, shell, repo_url, folder_name):
         super().__init__(shell)
         self.url = repo_url
