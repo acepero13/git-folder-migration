@@ -1,7 +1,12 @@
 import unittest
-from src.commands.clone import Clone
+from commands.git.clone import Clone
+from test.fakes.fake_command import FakeShell
+
+
 class TestCloneCommand(unittest.TestCase):
     def test_builds_clone_command(self):
-        clone  = Clone('https://github.com/USERNAME/REPOSITORY-NAME', 'extensionName')
+        shell = FakeShell('/fake/path')
+        clone = Clone(shell, 'https://github.com/USERNAME/REPOSITORY-NAME', 'extensionName')
         clone.execute()
-        self.assertEquals('git clone https://github.com/USERNAME/REPOSITORY-NAME extensionName', clone.asString())
+        self.assertEqual('git clone https://github.com/USERNAME/REPOSITORY-NAME extensionName',
+                         shell.get_executed_command())

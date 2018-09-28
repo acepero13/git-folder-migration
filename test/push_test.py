@@ -1,7 +1,11 @@
 import unittest
-from src.commands.push import Push
+from commands.git.push import Push
+from test.fakes.fake_command import FakeShell
+
+
 class TestPushCommand(unittest.TestCase):
     def test_builds_push_command(self):
-        push  = Push('origin', 'master')
+        shell = FakeShell('/fake/path')
+        push = Push(shell, 'origin', 'master')
         push.execute()
-        self.assertEquals('git push -u origin master', push.asString())
+        self.assertEqual('git push -u origin master', shell.get_executed_command())

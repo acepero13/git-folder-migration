@@ -1,26 +1,28 @@
-from src.commands.clone import Clone
-from src.commands.filter import Filter
-from src.commands.create_repo import CreateRepo
-from src.commands.push import Push
+from commands.git.clone import Clone
+from commands.git.filter import Filter
+from commands.git.create_repo import CreateRepo
+from commands.git.push import Push
+
+
 class Migrator(object):
-    def __init__(self, config):
+    def __init__(self, config, shell):
         self.config = config
+        self.shell = shell
 
     def migrate(self):
         self.clone()
-        self.filterOnlyFolder()
-        self.createRepo()
+        self.filter_only_folder()
+        self.create_repo()
         self.push()
 
     def clone(self):
-        Clone(self.config['repo_url'], self.config['extensionName']).execute()
+        Clone(self.shell, self.config['repo_url'], self.config['extensionName']).execute()
 
-    def filterOnlyFolder(self):
-       Filter(self.config['folderName'], self.config['extensionPath'], 'master').execute()
-    
+    def filter_only_folder(self):
+        Filter(self.shell, self.config['folderName'], self.config['extensionPath'], 'master').execute()
 
-    def createRepo(self):
-        CreateRepo(self.config['folderName'], self.config['extensionName'], 'master').execute()
-    
+    def create_repo(self):
+        CreateRepo(self.shell, self.config['folderName'], self.config['extensionName'], 'master').execute()
+
     def push(self):
-        Push('origin', 'master').execute()
+        Push(self.shell, 'origin', 'master').execute()

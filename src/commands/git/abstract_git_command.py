@@ -1,24 +1,20 @@
 from abc import ABC, abstractmethod
+
+
 class AbstractGitCommand(ABC):
-    def __init__(self):
+    def __init__(self, shell):
         self.commands = ['git']
+        self.shell = shell;
 
     def add(self, arg):
         self.commands.append(arg)
         return self
 
     def execute(self):
-        self.buildCommand()
+        self.build_command()
+        self.shell.execute(self.commands)
 
     @abstractmethod
-    def buildCommand(self):
+    def build_command(self):
         pass
 
-    def asString(self):
-        return ' '.join(self.commands)
-
-    
-
-    
-    
-    
