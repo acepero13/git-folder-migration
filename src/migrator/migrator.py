@@ -14,7 +14,7 @@ class Migrator(object):
         self.cloned = ''
         self.origin = ''
         self.config = config
-        self.dir_discover = dir_discover
+        self.list_folders_to_migrate = dir_discover
 
     def migrate(self):
         self.prepare_for_migration()
@@ -22,18 +22,16 @@ class Migrator(object):
         self.clean_up()
 
     def migrate_folders(self):
-        folders_to_migrate = self.dir_discover.list()
-        for folder_path, folder_name in folders_to_migrate:
+        for folder_path, folder_name in self.list_folders_to_migrate.list():
             if not self.config.is_allowed(folder_name):
                 continue
-            operations = self.prepare_folder_migration(folder_name, folder_path)
-            self.start_migration(operations)
+            self.start_migration(self.list_operations_to_perform(folder_name, folder_path))
 
     def prepare_for_migration(self):
         self.create_folder_structure()
         Clone(Shell(self.origin), self.config.original_repo, self.origin).execute()
 
-    def prepare_folder_migration(self, folder_name, folder_path):
+    def list_operations_to_perform(self, folder_name, folder_path):
         shell_repo = Shell(os.path.join(self.cloned, folder_name))
         folder = folder_path[len(self.origin) + 1:].replace('\\', '/')
         return [Clone(Shell(self.cloned), self.config.original_repo, folder_name),
