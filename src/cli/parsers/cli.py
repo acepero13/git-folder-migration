@@ -16,7 +16,8 @@ class OptionsParser(AbstractParser):
                              sub_folder=self.args['sub_folder'],
                              allowed_folders=self.args['includes'],
                              not_allowed_folders=self.args['excludes'],
-                             regex_for_folder_name=self.args['regexp']
+                             regex_for_folder_name=self.args['regexp'],
+                             branch=self.args['branch']
                              )
 
     def check_optional_values(self):
@@ -33,4 +34,6 @@ class OptionsParser(AbstractParser):
             if self.args.get(required_arg) is None:
                 missing.append(required_arg)
         if len(missing) > 0:
-            raise Exception('Error: the following argument(s) are required: ' + ', '.join(missing))
+            print('Error: the following argument(s) are required: ' + ', '.join(
+                missing) + '. Type python main.py --help to see the help')
+            exit(1)

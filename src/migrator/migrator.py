@@ -21,23 +21,33 @@ class Migrator(object):
         self.migrate_folders()
         self.clean_up()
 
-    def migrate_folders(self):
-        for folder_path, folder_name in self.list_folders_to_migrate.list():
-            if not self.config.is_allowed(folder_name):
-                continue
-            self.start_migration(self.list_operations_to_perform(folder_name, folder_path))
-
     def prepare_for_migration(self):
         self.create_folder_structure()
         Clone(Shell(self.origin), self.config.original_repo, self.origin).execute()
 
+    def migrate_folders(self):
+        for folder_path, folder_name in self.list_folders_to_migrate.list():
+            self.migrate_folder(folder_name, folder_path)
+        print('Migration finished: Check the log file for errors')
+
+    def migrate_folder(self, folder_name, folder_path):
+        if self.config.is_allowed(folder_name):
+            print('migrating: ' + folder_name + ' ...')
+            self.start_migration(self.list_operations_to_perform(folder_name, folder_path))
+
     def list_operations_to_perform(self, folder_name, folder_path):
         shell_repo = Shell(os.path.join(self.cloned, folder_name))
-        folder = folder_path[len(self.origin) + 1:].replace('\\', '/')
+        sub_folder_to_migrate = self.convert_path_format_from_windows_to_git(folder_path)
+        return self.create_operations(sub_folder_to_migrate, folder_name, shell_repo)
+
+    def convert_path_format_from_windows_to_git(self, folder_path):
+        return folder_path[len(self.origin) + 1:].replace('\\', '/')
+
+    def create_operations(self, folder, folder_name, shell_repo):
         return [Clone(Shell(self.cloned), self.config.original_repo, folder_name),
-                Filter(shell_repo, folder, 'master'),
-                CreateRepo(shell_repo, self.config.new_repo_namespace, folder_name, 'master'),
-                Push(shell_repo, 'origin', 'master')
+                Filter(shell_repo, folder, self.config.branch),
+                CreateRepo(shell_repo, self.config.new_repo_namespace, folder_name, self.config.branch),
+                Push(shell_repo, 'origin', self.config.branch)
                 ]
 
     def clean_up(self):
@@ -45,7 +55,8 @@ class Migrator(object):
         folder.remove(self.cloned)
         folder.remove(self.origin)
 
-    def start_migration(self, operations):
+    @staticmethod
+    def start_migration(operations):
         for operation in operations:
             operation.execute()
 

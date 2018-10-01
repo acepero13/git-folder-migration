@@ -6,6 +6,7 @@ from constants import constants
 
 class Configuration(object):
     def __init__(self, **kwds):
+        self.__dict__['branch'] = constants.BRANCH
         self.__dict__.update(kwds)
 
     def folder_to_discover(self):

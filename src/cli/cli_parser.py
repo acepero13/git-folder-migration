@@ -30,6 +30,8 @@ class CliParser(object):
                                  required=False)
         self.parser.add_argument('--config-file', help='Use a yaml configuration file instead of arguments. Hint: '
                                                        'edit the config.dist.yaml file', required=False)  # Exclusive
+        self.parser.add_argument('--branch', help='Branch to clone from. By default uses master', required=False,
+                                 default='master')
         return vars(self.parser.parse_args())
 
     def create_parser(self):

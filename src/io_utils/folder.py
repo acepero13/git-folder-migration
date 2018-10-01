@@ -4,16 +4,15 @@ import shutil
 import stat
 
 
-def errorRemoveReadonly(func, path, exc):
+def error_remove_readonly(func, path, exc):
     excvalue = exc[1]
-    if excvalue.errno == errno.EACCES and  not os.access(path, os.W_OK):
-        # change the file to be readable,writable,executable: 0777
+    if excvalue.errno == errno.EACCES and not os.access(path, os.W_OK):
         os.chmod(path, stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
-        # retry
         func(path)
     else:
         print('Could not delete folder: ' + path + '. Please, try to delete it manually')
         exit(1)
+
 
 class Folder(object):
     def __init__(self, working_directory):
@@ -28,17 +27,12 @@ class Folder(object):
             self.create(folder_path)
         return folder_path
 
-    def create(self, folder_path):
+    @staticmethod
+    def create(folder_path):
         os.makedirs(folder_path)
 
     def remove(self, folder_path):
-        try:
-            shutil.rmtree(self.build_path(folder_path), ignore_errors=False, onerror=errorRemoveReadonly)
-        except:
-            print('Could not delete folder: ' + folder_path + '. Please, try to delete it manually')
-            exit(1)
-
-
+        shutil.rmtree(self.build_path(folder_path), ignore_errors=False, onerror=error_remove_readonly)
 
     def build_path(self, folder):
         if self.working_directory is None:
