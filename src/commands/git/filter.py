@@ -3,7 +3,7 @@ from commands.abstract_command import AbstractCommand
 
 
 class Filter(AbstractCommand):
-    def __init__(self, shell, folder_name, folder_path, branch):
+    def __init__(self, shell, folder_name, branch):
         super().__init__(shell)
         self.folder = folder_name
         self.branch = branch

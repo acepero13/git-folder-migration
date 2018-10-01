@@ -35,7 +35,7 @@ class Migrator(object):
         shell_repo = Shell(os.path.join(self.cloned, folder_name))
         folder = folder_path[len(self.origin) + 1:].replace('\\', '/')
         return [Clone(Shell(self.cloned), self.config.original_repo, folder_name),
-                Filter(shell_repo, folder, folder, 'master'),
+                Filter(shell_repo, folder, 'master'),
                 CreateRepo(shell_repo, self.config.new_repo_namespace, folder_name, 'master'),
                 Push(shell_repo, 'origin', 'master')
                 ]
