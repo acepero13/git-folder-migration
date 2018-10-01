@@ -3,11 +3,7 @@ migrator:
   new_repo_namespace: 'https://gitlab.com/migrator-sorter-tmp/'
   working_directory: 'C:\Users\amador\Documents\Projects\table-sorter'
   sub_folder: 'src\sorter\'
-  includes:
-    - 'comparables'
-    - 'table'
-  excludes:
-    - 'factories'
-    - 'attributes'
+  includes: []
+  excludes: []
   regex_folder_name: ''
 

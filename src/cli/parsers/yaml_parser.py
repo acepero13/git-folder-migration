@@ -2,10 +2,11 @@ import os
 
 import yaml
 
+from cli.parsers.abstract_parser import AbstractParser
 from configuration.configuration import Configuration
 
 
-class YamlParser(object):
+class YamlParser(AbstractParser):
     def __init__(self, file):
         self.file = file
 
