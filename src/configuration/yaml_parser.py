@@ -13,7 +13,7 @@ class YamlParser(object):
         if not os.path.isfile(self.file):
             raise Exception('Configuration file: ' + self.file + 'does not exists')
         with open(self.file, 'r') as stream:
-            data_loaded = yaml.load(stream)
+            data_loaded = yaml.safe_load(stream)
         migrator = data_loaded['migrator']
         config = Configuration(original_repo=migrator['original_repo'],
                                new_repo_namespace=migrator['new_repo_namespace'],
